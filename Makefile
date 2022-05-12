@@ -10,13 +10,13 @@ setup-with-pipenv:
 	# Avoid using the Pipfile from a higher level directory
 	touch Pipfile
 	pipenv install --skip-lock \
-		-e .[pydantic,nats] \
+		-e .[nats-and-pydantic] \
 		-r requirements_dev.txt \
 		--python $(shell grep python .tool-versions | cut -d' ' -f2)
 
 setup-cicd:
 	python -m pip install --upgrade pip
-	pip install -e .[pydantic,nats] -r requirements_dev.txt
+	pip install -e .[nats-and-pydantic] -r requirements_dev.txt
 
 test-unit:
 	# Pass -k to pytest to filter by test name or filename
@@ -28,6 +28,12 @@ test-unit:
 		--cov-report term --cov-report html --cov=src/powerflex_logging_utilities \
 		--durations=0 --durations-min=0.005 \
 		unit_tests
+
+test-unit-all-python-versions:
+	tox
+
+tox-recreate:
+	tox --recreate
 
 lint:
 	pydocstyle --add-ignore=D100,D101,D102,D103,D104,D105,D106,D107,D202,D412 src unit_tests

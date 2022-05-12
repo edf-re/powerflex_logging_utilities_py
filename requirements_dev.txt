@@ -6,6 +6,10 @@ pydocstyle
 
 # Unit testing
 tox
+# Waiting for this PR to be merged into tox-asdf:
+# https://github.com/apihackers/tox-asdf/pulls
+tox-asdf @ git+https://github.com/offbyone/tox-asdf@pypy3.8-upgrade#egg=tox-asdf
+tox-pyenv
 pytest
 pytest-subtests
 pytest-cov
