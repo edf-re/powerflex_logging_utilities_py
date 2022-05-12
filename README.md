@@ -1,6 +1,6 @@
-# powerflex_logging_utilities_py
+# powerflex-logging-utilities
 
-Helpful code for logging in Python
+Helpful code for logging in Python by PowerFlex.
 
 # Sample usage
 
@@ -100,7 +100,7 @@ logger.info("hello world", extra={
 }
 ```
 
-# Using `pipenv`
+# Using pipenv
 
 1. Run `make setup-with-pipenv` to install all dependencies.
    Make sure you have the version of Python specified in `.tool-versions` or simply change this file to your Python version (must be 3.8+).
@@ -119,6 +119,12 @@ To test in several versions of Python, run:
 
 ```
 tox
+```
+
+## Testing the code in this README
+
+```
+make test-readme
 ```
 
 # Checking code quality
