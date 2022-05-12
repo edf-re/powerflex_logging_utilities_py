@@ -82,7 +82,7 @@ logger.info("hello world", extra={
 })
 ```
 
-```skip
+```skip_phmdoctest
 {
   "message": "hello world",
   "name": "__main__",

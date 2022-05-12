@@ -7,7 +7,7 @@ name: "Pull Request - Test Code"
 
 jobs:
   unit:
-    name: Unit Tests
+    name: Unit+README Tests
     runs-on: ubuntu-20.04
     strategy:
       matrix:
