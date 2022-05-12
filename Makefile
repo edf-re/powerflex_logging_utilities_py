@@ -16,7 +16,7 @@ setup-with-pipenv:
 
 setup-cicd:
 	python -m pip install --upgrade pip
-	pip install -e .[pydantic,nats] -r requirements/requirements_dev.txt
+	pip install -e .[pydantic,nats] -r requirements_dev.txt
 
 test-unit:
 	# Pass -k to pytest to filter by test name or filename

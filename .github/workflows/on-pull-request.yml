@@ -1,0 +1,70 @@
+name: "Pull Request - Test Code"
+
+"on":
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit:
+    name: Unit Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Service
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Setup
+        run: make setup-cicd
+      - name: Unit Tests
+        run: make test-unit
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Service
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Setup
+        id: setup
+        run: make setup-cicd
+      - name: Lint
+        run: make lint
+
+  format:
+    name: Check Formatting
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Service
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Setup
+        id: setup
+        run: make setup-cicd
+      - name: Check Formatting
+        run: make format-check
+
+  type-check:
+    name: Type Checking
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Service
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Setup
+        id: setup
+        run: make setup-cicd
+      - name: Type Checking
+        run: make type-check-strict
