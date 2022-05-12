@@ -18,6 +18,10 @@ setup-cicd:
 	python -m pip install --upgrade pip
 	pip install -e .[nats-and-pydantic] -r requirements_dev.txt
 
+test-readme:
+	phmdoctest README.md --outfile _generated_test_readme.py
+	pytest _generated_test_readme.py
+
 test-unit:
 	# Pass -k to pytest to filter by test name or filename
 	# Pass -s to pytest to show stdout

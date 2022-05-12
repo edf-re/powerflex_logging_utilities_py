@@ -14,6 +14,9 @@ pytest
 pytest-subtests
 pytest-cov
 
+# Test the code in README.md
+phmdoctest
+
 # Type checking
 mypy
 

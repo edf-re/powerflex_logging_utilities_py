@@ -4,6 +4,8 @@ htmlcov
 .coverage
 logs
 
+_generated_test_readme.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

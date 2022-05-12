@@ -23,6 +23,8 @@ jobs:
         run: make setup-cicd
       - name: Unit Tests
         run: make test-unit
+      - name: Test README.md sample code
+        run: make test-readme
 
   lint:
     name: Lint
