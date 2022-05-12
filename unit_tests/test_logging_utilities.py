@@ -1,9 +1,11 @@
 import asyncio
+import os
 import logging
 import sys
 import time
 import unittest
 from unittest.mock import Mock
+from typing import Optional
 
 from powerflex_logging_utilities import (
     JsonFormatter,
@@ -21,6 +23,8 @@ log_methods = [
     "error",
     "critical",
 ]
+
+TEST_DELAY = float(os.environ.get("TEST_DELAY", 0.05))
 
 
 def add_stdout_handler():
@@ -57,12 +61,13 @@ class Test(unittest.TestCase):
             exc_info=True,
         )
 
-    def test_log_slow_callbacks(self):
+    def test_async_log_slow_callbacks(self):
         # This won't work in a subclass of unittest.IsolatedAsyncioTestCase
         # Must use asyncio.run manually
+        # The aiodebug module does not account for this use case
         logger = Mock()
         logger.log = Mock()  # helps with type checking
-        very_slow_async_task_threshold_sec = 0.1
+        very_slow_async_task_threshold_sec = TEST_DELAY
         log_slow_callbacks.log_slow_callbacks(
             logger,
             slow_async_task_threshold_sec=very_slow_async_task_threshold_sec / 2,
@@ -78,9 +83,9 @@ class Test(unittest.TestCase):
         first_arg = logger.log.call_args_list[0].args[0]
         self.assertEqual(first_arg, logging.WARN)
 
-    def test_init_loggers(self):
-        add_stdout_handler()
-
+    def _test_init_loggers(
+        self, log_level: str, filename: Optional[str], use_info_logger: bool
+    ):
         logger = logging.getLogger("test-init-loggers")
         third_party_loggers = ["asyncio", "py.warnings"]
         loggers = (logger, *[logging.getLogger(name) for name in third_party_loggers])
@@ -88,19 +93,43 @@ class Test(unittest.TestCase):
         logging.captureWarnings(True)
         init_loggers.init_loggers(
             loggers,
-            log_level="DEBUG",
-            file_level="DEBUG",
-            filename="./logs/unit-test-debug.log",
+            log_level=log_level,
+            file_level=log_level,
+            filename=filename,
             max_bytes=2000,
             backup_count=10,
             formatter=logging.Formatter,
-            info_logger=logger,
+            info_logger=logger if use_info_logger else None,
         )
 
         for log_level in log_methods:
             with self.subTest(log_level=log_level):
                 log_method = getattr(logger, log_level)
                 log_method("test", extra={"test": True})
+
+    def test_init_loggers(self):
+        log_level = "DEBUG"
+        filename = "./logs/unit-test-debug.log"
+        add_stdout_handler()
+
+        self._test_init_loggers(
+            log_level=log_level, filename=filename, use_info_logger=True
+        )
+        self._test_init_loggers(
+            log_level=log_level, filename=filename, use_info_logger=False
+        )
+
+    def test_init_loggers_no_file_output(self):
+        log_level = "DEBUG"
+        filename = None
+        add_stdout_handler()
+
+        self._test_init_loggers(
+            log_level=log_level, filename=filename, use_info_logger=True
+        )
+        self._test_init_loggers(
+            log_level=log_level, filename=filename, use_info_logger=False
+        )
 
     def test_trace_logger(self):
         add_stdout_handler()

@@ -4,7 +4,7 @@ import logging
 import os
 import sys
 import unittest
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, Mock, patch
 from nats.aio.msg import Msg
 from pydantic import ValidationError
 
@@ -18,7 +18,10 @@ from powerflex_logging_utilities.log_level_listener.nats import (
 )
 
 
-TEST_DELAY = float(os.environ.get("TEST_DELAY", 0.1))
+TEST_DELAY = float(os.environ.get("TEST_DELAY", 0.05))
+
+TEST_SUBJECT = "test-subject"
+TEST_LOG_LEVEL = "INFO"
 
 test_config = NatsLogLevelListenerConfig(NATS_LOG_LEVEL_LISTENER_SUBJECT="test-subject")
 
@@ -48,6 +51,28 @@ class Test(unittest.IsolatedAsyncioTestCase):
             with self.subTest(test="invalid input"):
                 with self.assertRaises(ValidationError):
                     LogLevelRequestMessage.parse_obj(test_message)
+
+    async def test_read_from_environment(self):
+        mock_nats = AsyncMock()
+        mock_nats.subscribe = AsyncMock()
+
+        with patch.dict(
+            os.environ,
+            {
+                "NATS_LOG_LEVEL_LISTENER_SUBJECT": TEST_SUBJECT,
+                "FALLBACK_LOG_LEVEL": TEST_LOG_LEVEL,
+            },
+            clear=True,
+        ):
+            self.assertEqual(
+                os.environ["NATS_LOG_LEVEL_LISTENER_SUBJECT"], TEST_SUBJECT
+            )
+            listener = await AsyncNatsLogLevelListener.create(
+                nats_client=mock_nats, logger=Mock(), config=None
+            )
+
+        self.assertEqual(listener.config.NATS_LOG_LEVEL_LISTENER_SUBJECT, TEST_SUBJECT)
+        self.assertEqual(listener.config.FALLBACK_LOG_LEVEL, TEST_LOG_LEVEL)
 
     def test_format_exception(self):
         test_msg = "test message"
