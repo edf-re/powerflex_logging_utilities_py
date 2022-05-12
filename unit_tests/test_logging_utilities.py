@@ -53,9 +53,6 @@ class Test(unittest.TestCase):
         logger.debug("test", extra={"test": True}, stack_info=True, exc_info=True)
 
         logger.debug(
-            "test", extra={"override_lineno": 999}, stack_info=True, exc_info=True
-        )
-        logger.debug(
             "test",
             extra={1: "not a str key"},  # type:ignore
             stack_info=True,
