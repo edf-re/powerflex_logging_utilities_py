@@ -23,10 +23,11 @@ class LogLevelRequestMessage(BaseModel):
     level: Literal["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"] = Field(
         description="a valid Python logging level (CRITICAL, ERROR, WARNING, INFO, DEBUG)"
     )
-    duration: int = Field(
+    duration: float = Field(
         description="length of time in seconds before the log level is reset; "
         "setting this value to 0 or a negative integer will cause the log level to not be reset",
         default=DEFAULT_DURATION_SECONDS,
+        ge=0,
     )
 
 
@@ -55,7 +56,7 @@ class BaseAsyncLogLevelListener:
         self,
         handler_or_logger: Union[Handler, Logger],
         level: Union[str, int],
-        delay: int,
+        delay: float,
     ) -> None:
         """Resets the log level after a certain delay."""
         await sleep(delay)
@@ -63,7 +64,7 @@ class BaseAsyncLogLevelListener:
         handler_or_logger.setLevel(level)
 
     def set_log_level(
-        self, level: str, duration: int = DEFAULT_DURATION_SECONDS
+        self, level: str, duration: float = DEFAULT_DURATION_SECONDS
     ) -> None:
         """Sets the log level and starts and async task to reset it later."""
         self.logger.info(f"Setting log level to {level}")
