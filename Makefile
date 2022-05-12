@@ -23,6 +23,8 @@ bump-version:
 	git commit -m 'Bump version to $(shell cat $(VERSION))' $(VERSION)
 
 release:
+	git log -1 | grep 'Bump version' || \
+		(echo Please make sure the last commit is only changing the VERSION file ; exit 1)
 	python -m pip install --upgrade pip
 	rm -rf dist
 	python -m build
