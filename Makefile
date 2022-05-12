@@ -1,5 +1,5 @@
 SHELL=bash -o pipefail # Just in case
-PYFILES=$(shell find . -iname \*.py)
+PYFILES=$(shell find unit_tests src -iname \*.py ; echo *.py)
 STRICT_TYPED_FILES=$(shell find src -iname \*.py)
 
 setup-with-pipenv:
