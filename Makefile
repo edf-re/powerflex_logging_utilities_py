@@ -18,6 +18,13 @@ setup-cicd:
 	python -m pip install --upgrade pip
 	pip install -e .[nats-and-pydantic] -r requirements_dev.txt
 
+release:
+	python -m pip install --upgrade pip
+	rm -rf dist
+	python -m build
+	echo twine upload dist/*
+	echo git tag -a v$(shell cat src/powerflex_logging_utilities/VERSION)
+
 test-readme:
 	phmdoctest README.md --outfile _generated_test_readme.py
 	pytest _generated_test_readme.py

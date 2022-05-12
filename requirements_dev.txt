@@ -1,3 +1,7 @@
+# Releasing to pypi
+build
+twine
+
 # Linting and formatting
 black==22.3.0
 isort==5.10.1
