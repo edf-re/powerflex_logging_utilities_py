@@ -26,7 +26,7 @@ test-unit:
 		-v \
 		--log-format="%(levelname)s %(asctime)s %(filename)s:%(module)s:%(funcName)s:%(lineno)s %(message)s" \
 		--cov-report term --cov-report html --cov=src/powerflex_logging_utilities \
-		--durations-min=0.005 \
+		--durations=0 --durations-min=0.005 \
 		unit_tests
 
 lint:
