@@ -1,7 +1,7 @@
 import json
 from json import JSONDecodeError
-from logging import Handler, Logger
-from typing import Optional, Union
+from logging import Logger
+from typing import Optional
 
 from nats.aio.client import Client as NATSClient
 from nats.aio.msg import Msg
@@ -45,9 +45,9 @@ class AsyncNatsLogLevelListener(BaseAsyncLogLevelListener):
         self.nats_client = nats_client
         super().__init__(logger, config)
 
-    async def _async_init(self) -> None:
+    async def async_init(self) -> None:
         self.logger.info(
-            f"Log Level Listener subscribing to subject %s",
+            "Log Level Listener subscribing to subject %s",
             self.config.NATS_LOG_LEVEL_LISTENER_SUBJECT,
         )
         await self.nats_client.subscribe(
@@ -71,7 +71,7 @@ class AsyncNatsLogLevelListener(BaseAsyncLogLevelListener):
         logger.info(
             f"Log Level Listener initialized with config {config}", extra=config.dict()
         )
-        await log_level_listener._async_init()
+        await log_level_listener.async_init()
         return log_level_listener
 
     async def handle_log_level_change_nats_message(self, msg: Msg) -> None:

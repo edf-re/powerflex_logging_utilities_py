@@ -1,6 +1,7 @@
 from logging import INFO, WARN, Logger
 
-import aiodebug.log_slow_callbacks
+# For some reason, mypy doesn't detect this package's type hints
+import aiodebug.log_slow_callbacks  # type: ignore
 
 
 def log_slow_callbacks(
@@ -18,13 +19,10 @@ def log_slow_callbacks(
         than this many seconds.
     """
 
-    print("1LOGGER IS", logger)
-
     def on_slow_callback(task_name: str, duration: float) -> None:
         level = INFO
         if duration > very_slow_async_task_threshold_sec:
             level = WARN
-        print("LOGGER IS", logger)
         logger.log(
             level,
             "Executing task %s blocked async loop for %s seconds",

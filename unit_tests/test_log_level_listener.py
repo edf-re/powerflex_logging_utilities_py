@@ -5,18 +5,18 @@ import os
 import sys
 import unittest
 from unittest.mock import AsyncMock, Mock, patch
+
 from nats.aio.msg import Msg
 from pydantic import ValidationError
 
+from powerflex_logging_utilities.log_level_listener import LogLevelRequestMessage
 from powerflex_logging_utilities.log_level_listener.format_exception import (
     format_exception,
 )
-from powerflex_logging_utilities.log_level_listener import LogLevelRequestMessage
 from powerflex_logging_utilities.log_level_listener.nats import (
     AsyncNatsLogLevelListener,
     NatsLogLevelListenerConfig,
 )
-
 
 TEST_DELAY = float(os.environ.get("TEST_DELAY", 0.05))
 

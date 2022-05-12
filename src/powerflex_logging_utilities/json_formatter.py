@@ -18,7 +18,7 @@ class JsonFormatter(jsonlogger.JsonFormatter):  # type: ignore
       is normally populated.
     """
 
-    def __init__(self, fmt: Optional[str] = DEFAULT_LOG_FORMAT, **kwargs):
+    def __init__(self, fmt: Optional[str] = DEFAULT_LOG_FORMAT, **kwargs: Any):
         super().__init__(fmt=fmt, **kwargs)
 
     def process_log_record(self, log_record: Dict[str, Any]) -> Any:

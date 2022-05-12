@@ -4,11 +4,10 @@ from typing import Optional
 from powerflex_logging_utilities import (
     JsonFormatter,
     TraceLogger,
-    log_slow_callbacks,
     forbid_toplevel_logging,
     init_loggers,
+    log_slow_callbacks,
 )
-
 
 LOG_LEVEL: str = "DEBUG"
 FILE_LOG_LEVEL: Optional[str] = "TRACE"

@@ -33,7 +33,7 @@ class LogLevelRequestMessage(BaseModel):
 
 class BaseAsyncLogLevelListener:
     """
-    Log level listener that changes the log level of the logging handler with name="stdout"
+    Log level listener that changes the log level of the logging handler with name="stdout".
 
     Changes the log level of the stdout logging handler (or the logger itself if no stdout logging
     handler is found) for a specified duration. These parameters are provided via a LogLevelRequestMessage.
@@ -58,7 +58,7 @@ class BaseAsyncLogLevelListener:
         level: Union[str, int],
         delay: float,
     ) -> None:
-        """Resets the log level after a certain delay."""
+        """Reset the log level after a certain delay."""
         await sleep(delay)
         self.logger.info(f"Resetting log level to {level}")
         handler_or_logger.setLevel(level)
@@ -66,7 +66,7 @@ class BaseAsyncLogLevelListener:
     def set_log_level(
         self, level: str, duration: float = DEFAULT_DURATION_SECONDS
     ) -> None:
-        """Sets the log level and starts and async task to reset it later."""
+        """Set the log level and starts and async task to reset it later."""
         self.logger.info(f"Setting log level to {level}")
         handler_or_logger = self._get_stdout_handler_or_logger()
         handler_or_logger.setLevel(level)

@@ -1,20 +1,20 @@
 import asyncio
-import os
 import logging
+import os
 import sys
 import time
 import unittest
-from unittest.mock import Mock
 from typing import Optional
+from unittest.mock import Mock
 
 from powerflex_logging_utilities import (
+    DEFAULT_LOG_FORMAT,
+    TRACE,
     JsonFormatter,
     TraceLogger,
-    TRACE,
-    log_slow_callbacks,
     forbid_toplevel_logging,
     init_loggers,
-    DEFAULT_LOG_FORMAT,
+    log_slow_callbacks,
 )
 
 log_methods = [
@@ -41,6 +41,7 @@ class Test(unittest.TestCase):
         for handler in root_logger.handlers:
             root_logger.removeHandler(handler)
 
+    # pylint: disable=no-self-use
     def test_json_formatter(self):
         log_handler = logging.StreamHandler(stream=sys.stdout)
         log_handler.setLevel("DEBUG")
@@ -102,9 +103,9 @@ class Test(unittest.TestCase):
             info_logger=logger if use_info_logger else None,
         )
 
-        for log_level in log_methods:
-            with self.subTest(log_level=log_level):
-                log_method = getattr(logger, log_level)
+        for log_method in log_methods:
+            with self.subTest(log_method=log_method):
+                log_method = getattr(logger, log_method)
                 log_method("test", extra={"test": True})
 
     def test_init_loggers(self):
@@ -136,9 +137,9 @@ class Test(unittest.TestCase):
         logger = TraceLogger("test")
         logger.setLevel(TRACE)
 
-        for log_level in ["trace"] + log_methods:
-            with self.subTest(log_level=log_level):
-                log_method = getattr(logger, log_level)
+        for log_method in ["trace"] + log_methods:
+            with self.subTest(log_method=log_method):
+                log_method = getattr(logger, log_method)
                 log_method("test", extra={"test": True})
 
     def test_forbid_toplevel_logging(self):

@@ -30,7 +30,7 @@ test-unit:
 		unit_tests
 
 lint:
-	pydocstyle --add-ignore=D100,D101,D102,D103,D104,D105,D106,D107,D412 src unit_tests
+	pydocstyle --add-ignore=D100,D101,D102,D103,D104,D105,D106,D107,D202,D412 src unit_tests
 	pylint src unit_tests
 
 type-check-strict:
