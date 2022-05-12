@@ -76,5 +76,10 @@ clean:
 	rm -rf .pytest_cache reqlib-metadata __pycache__ .mypy_cache htmlcov .coverage
 	rm -rf src/.pytest_cache src/powerflex_logging_utilities.egg-info/
 	rm -rf build/
+	rm -rf dist/
+	rm -rf _generated_test_readme.py
 	# Remove __pycache__ directories
 	rm -rf $(shell find . -type d -iname __pycache__)
+
+clean-all:
+	rm -rf .tox
