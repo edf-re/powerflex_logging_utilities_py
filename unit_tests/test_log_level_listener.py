@@ -1,19 +1,24 @@
-#!/usr/bin/env python3
+import asyncio
 import json
 import logging
+import os
 import sys
 import unittest
-from asyncio import sleep
 from unittest.mock import AsyncMock
 from nats.aio.msg import Msg
+from pydantic import ValidationError
 
 from powerflex_logging_utilities.log_level_listener.format_exception import (
     format_exception,
 )
+from powerflex_logging_utilities.log_level_listener import LogLevelRequestMessage
 from powerflex_logging_utilities.log_level_listener.nats import (
     AsyncNatsLogLevelListener,
     NatsLogLevelListenerConfig,
 )
+
+
+TEST_DELAY = float(os.environ.get("TEST_DELAY", 0.1))
 
 test_config = NatsLogLevelListenerConfig(NATS_LOG_LEVEL_LISTENER_SUBJECT="test-subject")
 
@@ -28,6 +33,22 @@ def make_nats_msg(subject: str, data: bytes, reply: str = "") -> Msg:
 
 
 class Test(unittest.IsolatedAsyncioTestCase):
+    def test_message(self):
+        with self.subTest(test="valid input"):
+            LogLevelRequestMessage(level="CRITICAL", duration=1)
+            LogLevelRequestMessage(level="INFO", duration=0.5)
+
+        test_bad_messages = [
+            dict(level="critical", duration=1),
+            dict(level="CRITICAL", duration=-1),
+            dict(level="unknown", duration=1),
+        ]
+
+        for test_message in test_bad_messages:
+            with self.subTest(test="invalid input"):
+                with self.assertRaises(ValidationError):
+                    LogLevelRequestMessage.parse_obj(test_message)
+
     def test_format_exception(self):
         test_msg = "test message"
         test_exception = RuntimeError(test_msg)
@@ -61,12 +82,12 @@ class Test(unittest.IsolatedAsyncioTestCase):
         ):
             msg = make_nats_msg(
                 subject="test",
-                data=json.dumps({"level": "DEBUG", "duration": 1}).encode(),
+                data=json.dumps({"level": "DEBUG", "duration": TEST_DELAY}).encode(),
             )
             self.assertEqual(listener.logger.handlers[0].level, logging.INFO)
             await listener.handle_log_level_change_nats_message(msg)
             self.assertEqual(listener.logger.handlers[0].level, logging.DEBUG)
-            await sleep(2)
+            await asyncio.sleep(TEST_DELAY * 1.2)
             self.assertEqual(listener.logger.handlers[0].level, logging.INFO)
 
         with self.subTest(
@@ -89,7 +110,7 @@ class Test(unittest.IsolatedAsyncioTestCase):
             msg = make_nats_msg(
                 subject="test",
                 reply="reply",
-                data=json.dumps({"level": "DEBUG", "duration": 1}).encode(),
+                data=json.dumps({"level": "DEBUG", "duration": TEST_DELAY}).encode(),
             )
             self.assertEqual(listener.logger.handlers[0].level, logging.INFO)
             await listener.handle_log_level_change_nats_message(msg)
@@ -104,7 +125,9 @@ class Test(unittest.IsolatedAsyncioTestCase):
             msg = make_nats_msg(
                 subject="test",
                 reply="reply",
-                data=json.dumps({"bad_field_name": "DEBUG", "duration": 1}).encode(),
+                data=json.dumps(
+                    {"bad_field_name": "DEBUG", "duration": TEST_DELAY}
+                ).encode(),
             )
             await listener.handle_log_level_change_nats_message(msg)
             mock_nats.publish.assert_called_once()
@@ -143,10 +166,10 @@ class Test(unittest.IsolatedAsyncioTestCase):
         ):
             msg = make_nats_msg(
                 subject="test",
-                data=json.dumps({"level": "DEBUG", "duration": 1}).encode(),
+                data=json.dumps({"level": "DEBUG", "duration": TEST_DELAY}).encode(),
             )
             self.assertEqual(listener.logger.level, logging.INFO)
             await listener.handle_log_level_change_nats_message(msg)
             self.assertEqual(listener.logger.level, logging.DEBUG)
-            await sleep(2)
+            await asyncio.sleep(TEST_DELAY * 1.2)
             self.assertEqual(listener.logger.level, logging.INFO)
