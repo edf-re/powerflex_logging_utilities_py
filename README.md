@@ -9,7 +9,9 @@ Helpful code for logging in Python by PowerFlex.
 
 # Sample usage
 
-## Using `init_loggers`
+## Initializing Loggers
+
+Setup JSON logging to stdout and to a file:
 
 ```python
 import logging
@@ -28,9 +30,6 @@ LOG_FILE: Optional[str] = "./logs/trace.log"
 MAX_LOG_FILE_MB = 10
 MAX_TOTAL_LOG_FILE_MB = 10000
 
-MAX_LOG_FILE_BACKUP_COUNT = MAX_TOTAL_LOG_FILE_MB // MAX_LOG_FILE_MB
-MAX_LOG_FILE_BYTES = 1000 * 1000 * MAX_LOG_FILE_MB
-
 logger = TraceLogger("main")
 third_party_loggers = ["asyncio", "backoff", "py.warnings"]
 loggers = (logger, *[logging.getLogger(name) for name in third_party_loggers])
@@ -42,12 +41,14 @@ init_loggers.init_loggers(
     log_level=LOG_LEVEL,
     file_level=FILE_LOG_LEVEL,
     filename=LOG_FILE,
-    max_bytes=MAX_LOG_FILE_BYTES,
-    backup_count=MAX_LOG_FILE_BACKUP_COUNT,
+    max_bytes=1000 * 1000 * MAX_LOG_FILE_MB,
+    backup_count=MAX_TOTAL_LOG_FILE_MB // MAX_LOG_FILE_MB,
     formatter=JsonFormatter,
     info_logger=logger,
 )
 ```
+
+To use: `logger.info("hello")`.
 
 ## Using several other utilities
 
