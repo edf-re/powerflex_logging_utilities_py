@@ -1,3 +1,5 @@
+# Recreate this file with `make setup-with-pipenv`
+Pipfile
 htmlcov
 .coverage
 logs
