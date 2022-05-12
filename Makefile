@@ -29,7 +29,7 @@ release:
 	rm -rf dist
 	python -m build
 	twine upload dist/*
-	git tag -a v$(shell cat $(VERSION))
+	git tag -a v$(shell cat $(VERSION)) -m "v$(shell cat $(VERSION)) (released to pypi)"
 
 test-readme:
 	phmdoctest README.md --outfile _generated_test_readme.py
