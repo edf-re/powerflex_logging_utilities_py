@@ -149,3 +149,13 @@ make lint
 make type-check-strict
 ```
 
+
+# Releasing to pypi
+
+
+1. Make sure you have committed all code you wish to release.
+1. Make sure all code checks have passed.
+1. Set the version in [`./src/powerflex_logging_utilities/VERSION`](./src/powerflex_logging_utilities/VERSION)
+   Please attempt to follow semantic versioning.
+1. Run `make bump-version`
+1. Run `make release`
