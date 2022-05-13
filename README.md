@@ -68,6 +68,8 @@ logger = logging.getLogger(__name__)
 This uses Python's logger propagation feature.
 We only need to configure the root Logger in order to make sure all other Loggers output in the desired format.
 
+You can pass `formatter_kwargs` to enable logging with a different JSON serializer.
+
 To use:
 
 ```skip_phmdoctest

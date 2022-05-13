@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 import os
 import sys
-from typing import Collection, Optional, TextIO, Type, Union, cast
+from typing import Any, Collection, Dict, Optional, TextIO, Type, Union, cast
 
 from powerflex_logging_utilities.default_log_format import DEFAULT_LOG_FORMAT
 from powerflex_logging_utilities.json_formatter import JsonFormatter
@@ -23,12 +23,15 @@ def add_stream_handler(
     logger_instance: logging.Logger,
     log_level: Union[str, int],
     formatter: Type[logging.Formatter],
+    formatter_kwargs: Optional[Dict[str, Any]] = None,
     log_format: str = DEFAULT_LOG_FORMAT,
     stream: TextIO = sys.stdout,
 ) -> None:
+    if formatter_kwargs is None:
+        formatter_kwargs = {}
     log_handler = logging.StreamHandler(stream=stream)
     log_handler.set_name("stdout")
-    log_handler.setFormatter(formatter(fmt=log_format))
+    log_handler.setFormatter(formatter(fmt=log_format, **formatter_kwargs))
     log_handler.setLevel(log_level)
     logger_instance.addHandler(log_handler)
 
@@ -40,12 +43,16 @@ def add_file_handler(
     max_bytes: int,
     backup_count: int,
     formatter: Type[logging.Formatter],
+    formatter_kwargs: Optional[Dict[str, Any]] = None,
     log_format: str = DEFAULT_LOG_FORMAT,
 ) -> None:
     """Add a file handler to a Logger so it logs to a file.
 
     Creates the log file directory if it doesn't exist.
     """
+    if formatter_kwargs is None:
+        formatter_kwargs = {}
+
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
     log_handler = logging.handlers.RotatingFileHandler(
@@ -53,7 +60,7 @@ def add_file_handler(
         maxBytes=max_bytes,
         backupCount=backup_count,
     )
-    log_handler.setFormatter(formatter(fmt=log_format))
+    log_handler.setFormatter(formatter(fmt=log_format, **formatter_kwargs))
     log_handler.setLevel(log_level)
     logger_instance.addHandler(log_handler)
 
@@ -67,6 +74,7 @@ def init_logger(
     backup_count: int = DEFAULT_LOGFILE_BACKUP_COUNT,
     stream: TextIO = sys.stdout,
     formatter: Type[logging.Formatter] = JsonFormatter,
+    formatter_kwargs: Optional[Dict[str, Any]] = None,
     log_format: str = DEFAULT_LOG_FORMAT,
 ) -> None:
     """Configure a logger to log to both the given stream and filename with the given formatter.
@@ -84,7 +92,14 @@ def init_logger(
 
     logger_instance.setLevel(min_level)
 
-    add_stream_handler(logger_instance, log_level, formatter, log_format, stream=stream)
+    add_stream_handler(
+        logger_instance,
+        log_level,
+        formatter,
+        formatter_kwargs,
+        log_format,
+        stream=stream,
+    )
     if not (file_log_level is None or filename is None):
         add_file_handler(
             logger_instance,
@@ -93,6 +108,7 @@ def init_logger(
             max_bytes,
             backup_count,
             formatter,
+            formatter_kwargs,
             log_format,
         )
 
@@ -106,6 +122,7 @@ def init_loggers(
     backup_count: int = DEFAULT_LOGFILE_BACKUP_COUNT,
     stream: TextIO = sys.stdout,
     formatter: Type[logging.Formatter] = JsonFormatter,
+    formatter_kwargs: Optional[Dict[str, Any]] = None,
     log_format: str = DEFAULT_LOG_FORMAT,
     info_logger: Optional[Union[logging.Logger, str]] = None,
 ) -> None:
@@ -127,6 +144,7 @@ def init_loggers(
             backup_count,
             stream,
             formatter,
+            formatter_kwargs,
             log_format,
         )
 
