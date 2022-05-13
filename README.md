@@ -7,6 +7,18 @@
 
 Helpful code for logging in Python by PowerFlex.
 
+| Module | Description |
+|-----------------|--------------------------------------------|
+| forbid_toplevel_logging |  Disable logging with the top-level root logging functions such as `logging.info`.
+| log_slow_callbacks | Either warn or info log when an async callback runs for too long.
+| init_loggers |  A function for easily setting up logging to a file and to stdout.
+
+| Class | Description |
+|-----------------|--------------------------------------------|
+| JsonFormatter |  A JSON log formatter to enable structured logging. It depends on the `python-json-logger` package.
+| TraceLogger | A Python Logger subclass that adds a TRACE logging level
+| AsyncNatsLogLevelListener | A NATS interface for changing the program's log level by sending a NATS request
+
 # Sample usage
 
 ## Initializing Loggers
