@@ -3,6 +3,10 @@ PYFILES=$(shell find unit_tests src -iname \*.py ; echo *.py)
 STRICT_TYPED_FILES=$(shell find src -iname \*.py)
 VERSION=src/powerflex_logging_utilities/VERSION
 
+all: commitready
+
+commitready: format-fix lint type-check-strict test-readme test-unit
+
 setup-with-pipenv:
 	python -m pip install --upgrade pip
 	pip install pipenv
