@@ -23,11 +23,11 @@ Helpful code for logging in Python by PowerFlex.
 
 ## Initializing Loggers
 
-Setup JSON logging to stdout and to a file:
+Setup **all Loggers** to output JSON to stdout and to a file:
 
 ```python
 import logging
-from typing import Optional
+import sys
 
 from powerflex_logging_utilities import (
     JsonFormatter,
@@ -35,32 +35,81 @@ from powerflex_logging_utilities import (
     init_loggers,
 )
 
-LOG_LEVEL: str = "DEBUG"
-FILE_LOG_LEVEL: Optional[str] = "TRACE"
-LOG_FILE: Optional[str] = "./logs/trace.log"
+LOG_LEVEL = "DEBUG"
+FILE_LOG_LEVEL = "TRACE"
+LOG_FILE = "./logs/trace.log"
 
 MAX_LOG_FILE_MB = 10
 MAX_TOTAL_LOG_FILE_MB = 10000
 
-logger = TraceLogger("main")
-third_party_loggers = ["asyncio", "backoff", "py.warnings"]
-loggers = (logger, *[logging.getLogger(name) for name in third_party_loggers])
+root_logger = logging.getLogger()
 
+# Log warnings with the py.warnings logger
 logging.captureWarnings(True)
 
+# Fix iPython autocomplete
+logging.getLogger("parso").propagate=False
+
 init_loggers.init_loggers(
-    loggers,
+    [root_logger],
     log_level=LOG_LEVEL,
-    file_level=FILE_LOG_LEVEL,
+    file_log_level=FILE_LOG_LEVEL,
     filename=LOG_FILE,
     max_bytes=1000 * 1000 * MAX_LOG_FILE_MB,
     backup_count=MAX_TOTAL_LOG_FILE_MB // MAX_LOG_FILE_MB,
+    stream=sys.stdout,
+    formatter=JsonFormatter,
+    info_logger=root_logger,
+)
+
+logger = logging.getLogger(__name__)
+```
+
+This uses Python's logger propagation feature.
+We only need to configure the root Logger in order to make sure all other Loggers output in the desired format.
+
+To use:
+
+```skip_phmdoctest
+logger = logging.getLogger(__name__)
+logger.info("hello world")
+```
+
+### Explicitly listing loggers
+
+You can also list the loggers you'd like to configure instead of configuring
+the root logger.
+
+This could be useful if you configure your package's main logger
+`logging.getLogger("package")`. You can then use Python's logger propagation by calling
+`logging.getLogger("package.submodule.a.b.c")` to get Logger instances for all
+other submodules.
+
+```python
+import logging
+
+from powerflex_logging_utilities import (
+    JsonFormatter,
+    TraceLogger,
+    init_loggers,
+)
+
+logger = logging.getLogger("your_package_name")
+
+# Log warnings with the py.warnings logger
+logging.captureWarnings(True)
+
+init_loggers.init_loggers(
+    [logger, "asyncio", "py.warnings"],
+    log_level="DEBUG",
+    file_log_level="TRACE",
+    filename="./logs/trace-no-root.log",
     formatter=JsonFormatter,
     info_logger=logger,
 )
 ```
 
-To use: `logger.info("hello")`.
+**NOTICE**: if you use this method, any loggers you do not explicitly list will have non-JSON output.
 
 ## Using several other utilities
 
