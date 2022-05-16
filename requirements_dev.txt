@@ -1,0 +1,28 @@
+# Releasing to pypi
+build
+twine
+
+# Linting and formatting
+black==22.3.0
+isort==5.10.1
+pylint==2.11.1
+pydocstyle
+
+# Unit testing
+tox
+# Waiting for this PR to be merged into tox-asdf:
+# https://github.com/apihackers/tox-asdf/pulls
+tox-asdf @ git+https://github.com/offbyone/tox-asdf@pypy3.8-upgrade#egg=tox-asdf
+tox-pyenv
+pytest
+pytest-subtests
+pytest-cov
+
+# Test the code in README.md
+phmdoctest
+
+# Type checking
+mypy
+
+# REPL go brrr
+ipython
