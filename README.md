@@ -195,7 +195,13 @@ To download several versions of Python, use `pyenv` or `asdf`
 To use `pyenv`, install it [here](https://github.com/pyenv/pyenv#installation) and run the following script:
 
 ```
-./install_python_versions.sh
+./install_python_versions_pyenv.sh
+```
+
+To use `asdf`, install the core parts [here](http://asdf-vm.com/guide/getting-started.html) and run the following commands:
+
+```
+./install_python_versions_asdf.sh
 ```
 
 ## Testing the code in this README
