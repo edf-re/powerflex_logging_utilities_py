@@ -190,6 +190,14 @@ To test in several versions of Python, run:
 tox
 ```
 
+To download several versions of Python, use `pyenv` or `asdf` 
+
+To use `pyenv`, run the following script:
+
+```
+./install_python_versions.sh
+```
+
 ## Testing the code in this README
 
 ```
