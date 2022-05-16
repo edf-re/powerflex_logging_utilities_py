@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 asdf plugin-add python
 
@@ -9,7 +9,9 @@ LatestPythonVersionsArray=()
 for version in $PythonVersionsString; do
   latestVersion=$(asdf list all python $version | tail -1)
   LatestPythonVersionsArray+=($latestVersion)
+  set -x
   asdf install python $latestVersion
+  set +x
 done
 
 LatestPythonVersionsString="${LatestPythonVersionsArray[@]}"
