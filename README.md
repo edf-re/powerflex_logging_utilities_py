@@ -192,7 +192,7 @@ tox
 
 To download several versions of Python, use `pyenv` or `asdf` 
 
-To use `pyenv`, run the following script:
+To use `pyenv`, install it [here](https://github.com/pyenv/pyenv#installation) and run the following script:
 
 ```
 ./install_python_versions.sh
