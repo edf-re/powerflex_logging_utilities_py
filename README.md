@@ -19,19 +19,25 @@ Helpful code for logging in Python by PowerFlex.
 | TraceLogger | A Python Logger subclass that adds a TRACE logging level
 | AsyncNatsLogLevelListener | A NATS interface for changing the program's log level by sending a NATS request
 
+# Installation
+
+You can install from [PyPi](https://pypi.org/project/powerflex-logging-utilities/) directly:
+```python
+pip install powerflex-logging-utilities
+```
+
 # Sample usage
 
 ## Initializing Loggers
 
 Setup **all Loggers** to output JSON to stdout and to a file:
-
+ 
 ```python
 import logging
 import sys
 
 from powerflex_logging_utilities import (
     JsonFormatter,
-    TraceLogger,
     init_loggers,
 )
 
@@ -92,7 +98,6 @@ import logging
 
 from powerflex_logging_utilities import (
     JsonFormatter,
-    TraceLogger,
     init_loggers,
 )
 
