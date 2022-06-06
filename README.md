@@ -22,7 +22,7 @@ Helpful code for logging in Python by PowerFlex.
 # Installation
 
 You can install from [PyPi](https://pypi.org/project/powerflex-logging-utilities/) directly:
-```python
+```shellscript
 pip install powerflex-logging-utilities
 ```
 
