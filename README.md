@@ -1,9 +1,7 @@
 # powerflex-logging-utilities
 
-![PyPI - Version](https://img.shields.io/pypi/v/powerflex-logging-utilities)
-![PyPI - License](https://img.shields.io/pypi/l/powerflex-logging-utilities)
-![PyPI - Implementation](https://img.shields.io/pypi/implementation/powerflex-logging-utilities)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/powerflex-logging-utilities)
+<!-- Badges (images) related to Python package information -->
+[![PyPI - Version](https://img.shields.io/pypi/v/powerflex-logging-utilities) ![PyPI - License](https://img.shields.io/pypi/l/powerflex-logging-utilities) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/powerflex-logging-utilities) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/powerflex-logging-utilities)](https://pypi.org/project/powerflex-logging-utilities/)
 
 Helpful code for logging in Python by PowerFlex.
 
@@ -19,19 +17,25 @@ Helpful code for logging in Python by PowerFlex.
 | TraceLogger | A Python Logger subclass that adds a TRACE logging level
 | AsyncNatsLogLevelListener | A NATS interface for changing the program's log level by sending a NATS request
 
+# Installation
+
+You can install from [PyPi](https://pypi.org/project/powerflex-logging-utilities/) directly:
+```shellscript
+pip install powerflex-logging-utilities
+```
+
 # Sample usage
 
 ## Initializing Loggers
 
 Setup **all Loggers** to output JSON to stdout and to a file:
-
+ 
 ```python
 import logging
 import sys
 
 from powerflex_logging_utilities import (
     JsonFormatter,
-    TraceLogger,
     init_loggers,
 )
 
@@ -92,7 +96,6 @@ import logging
 
 from powerflex_logging_utilities import (
     JsonFormatter,
-    TraceLogger,
     init_loggers,
 )
 
