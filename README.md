@@ -1,9 +1,7 @@
 # powerflex-logging-utilities
 
-![PyPI - Version](https://img.shields.io/pypi/v/powerflex-logging-utilities)
-![PyPI - License](https://img.shields.io/pypi/l/powerflex-logging-utilities)
-![PyPI - Implementation](https://img.shields.io/pypi/implementation/powerflex-logging-utilities)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/powerflex-logging-utilities)
+<!-- Badges (images) related to Python package information -->
+[![PyPI - Version](https://img.shields.io/pypi/v/powerflex-logging-utilities) ![PyPI - License](https://img.shields.io/pypi/l/powerflex-logging-utilities) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/powerflex-logging-utilities) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/powerflex-logging-utilities)](https://pypi.org/project/powerflex-logging-utilities/)
 
 Helpful code for logging in Python by PowerFlex.
 
