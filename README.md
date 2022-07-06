@@ -66,6 +66,7 @@ init_loggers.init_loggers(
     info_logger=root_logger,
 )
 
+# Don't initialize a logger until your root logger is configured.
 logger = logging.getLogger(__name__)
 ```
 
