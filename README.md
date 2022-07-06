@@ -37,6 +37,7 @@ import sys
 from powerflex_logging_utilities import (
     JsonFormatter,
     init_loggers,
+    TraceLogger,
 )
 
 LOG_LEVEL = "DEBUG"
@@ -66,7 +67,8 @@ init_loggers.init_loggers(
     info_logger=root_logger,
 )
 
-# Don't initialize a logger until your root logger is configured.
+# Either use logging.getLogger or don't initialize a logger until your root logger is configured.
+logging.setLoggerClass(TraceLogger)
 logger = logging.getLogger(__name__)
 ```
 
