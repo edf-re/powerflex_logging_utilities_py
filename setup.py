@@ -16,7 +16,7 @@ setup(
     package_dir={"": "src"},
     zip_safe=True,
     version=read("src/powerflex_logging_utilities/VERSION").strip(),
-    package_data={"powerflex_logging_utilities": ["VERSION"]},
+    package_data={"powerflex_logging_utilities": ["VERSION", "py.typed"]},
     include_package_data=True,
     license="MIT License",
     description="Helpful code for logging in Python",
