@@ -30,13 +30,12 @@ setup(
     # Only 3.8+
     python_requires=">2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*",
     install_requires=[
-        # TODO add > req
-        "aiodebug",
-        "python-json-logger",
+        "aiodebug>=2.3.0",
+        "python-json-logger>=2.0.4",
     ],
     extras_require={
-        "pydantic": ["pydantic"],
-        "nats-and-pydantic": ["nats-py", "pydantic"],
+        "pydantic": ["pydantic>=1.9"],
+        "nats-and-pydantic": ["nats-py>=2", "pydantic"],
     },
     classifiers=[
         "Intended Audience :: Developers",
