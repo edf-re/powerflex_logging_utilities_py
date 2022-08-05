@@ -239,12 +239,13 @@ make type-check-strict
 ```
 
 
-# Releasing to pypi
+# Releasing to [PyPi.org](https://pypi.org/project/powerflex-logging-utilities/)
+
+1. Make sure all code checks have passed with `make commitready`.
+1. Make sure you commit all code you wish to release with `git commit`.
+1. Set the version in [`./src/powerflex_monitoring/VERSION`](./src/powerflex_logging_utilities/VERSION)
+   Please attempt to follow [semantic versioning](https://semver.org/).
+1. Run `make bump-version` to commit the change to the `VERSION` file.
+1. Run `make release` to upload the package to pypi.org and to push a new git tag
 
 
-1. Make sure you have committed all code you wish to release.
-1. Make sure all code checks have passed.
-1. Set the version in [`./src/powerflex_logging_utilities/VERSION`](./src/powerflex_logging_utilities/VERSION)
-   Please attempt to follow semantic versioning.
-1. Run `make bump-version`
-1. Run `make release`
