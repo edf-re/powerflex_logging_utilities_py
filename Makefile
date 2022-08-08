@@ -29,7 +29,7 @@ bump-version:
 release:
 	git log -1 | grep 'Bump version' || \
 		(echo Please make sure the last commit is only changing the VERSION file ; exit 1)
-	python -m pip install --upgrade pip
+	python -m pip install --upgrade pip twine
 	rm -rf dist
 	python -m build
 	twine upload dist/*
