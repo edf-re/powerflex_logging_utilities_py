@@ -248,4 +248,4 @@ make type-check-strict
 1. Run `make bump-version` to commit the change to the `VERSION` file.
 1. Run `make release` to upload the package to pypi.org and to push a new git tag
 
-
+(test)
