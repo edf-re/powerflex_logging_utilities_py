@@ -19,7 +19,7 @@ class TraceLogger(logging.Logger):
         *args: object,
         exc_info: bool = False,
         stack_info: bool = False,
-        stacklevel: int = 0,
+        stacklevel: int = 2,
         extra: Union[Mapping[str, object], None] = None,
     ) -> None:
         """Log at the trace severity level.
