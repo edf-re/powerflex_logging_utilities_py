@@ -15,13 +15,13 @@ setup-with-pipenv:
 	# Avoid using the Pipfile from a higher level directory
 	touch Pipfile
 	pipenv install --skip-lock \
-		-e .[nats-and-pydantic] \
+		-e .[nats-and-pydantic2] \
 		-r requirements_dev.txt \
 		--python $(shell grep python .tool-versions | cut -d' ' -f2)
 
 setup-cicd:
 	python -m pip install --upgrade pip
-	pip install -e .[nats-and-pydantic] -r requirements_dev.txt
+	pip install -e .[nats-and-pydantic2] -r requirements_dev.txt
 
 bump-version:
 	git commit -m 'Bump version to $(shell cat $(VERSION))' $(VERSION)

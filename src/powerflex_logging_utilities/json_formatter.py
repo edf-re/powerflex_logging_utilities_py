@@ -13,8 +13,8 @@ class JsonFormatter(jsonlogger.JsonFormatter):  # type: ignore
     - Replaces non-string keys in the log record with their __str__ representation
     """
 
-    def __init__(self, fmt: Optional[str] = DEFAULT_LOG_FORMAT, **kwargs: Any):
-        super().__init__(fmt=fmt, **kwargs)
+    def __init__(self, fmt: Optional[str] = DEFAULT_LOG_FORMAT, **kwargs: Any) -> None:
+        super().__init__(fmt=fmt, **kwargs)  # type: ignore
 
     def process_log_record(self, log_record: Dict[str, Any]) -> Any:
         log_record["severity"] = log_record["levelname"]
@@ -25,4 +25,4 @@ class JsonFormatter(jsonlogger.JsonFormatter):  # type: ignore
                 log_record[str(key)] = log_record[key]
                 del log_record[key]
 
-        return super().process_log_record(log_record)
+        return super().process_log_record(log_record)  # type: ignore
