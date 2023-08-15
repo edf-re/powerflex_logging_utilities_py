@@ -3,12 +3,18 @@ from asyncio import ensure_future, sleep
 from logging import Handler, Logger
 from typing import Literal, Union
 
-from pydantic import BaseModel, BaseSettings, Field
+from pydantic import BaseModel, Field
+
+try:
+    from pydantic_settings import BaseSettings
+except ImportError:
+    # pylint: disable=ungrouped-imports
+    from pydantic import BaseSettings  # type: ignore
 
 DEFAULT_DURATION_SECONDS = 60
 
 
-class LogLevelListenerConfig(BaseSettings):
+class LogLevelListenerConfig(BaseSettings):  # type: ignore
     """Pydantic settings object to configure a log level listener."""
 
     FALLBACK_LOG_LEVEL: str = Field(

@@ -35,7 +35,9 @@ setup(
     ],
     extras_require={
         "pydantic": ["pydantic>=1.9"],
+        "pydantic2": ["pydantic>=2", "pydantic_settings>=2"],
         "nats-and-pydantic": ["nats-py>=2", "pydantic"],
+        "nats-and-pydantic2": ["nats-py>=2", "pydantic>=2", "pydantic_settings>=2"],
     },
     classifiers=[
         "Intended Audience :: Developers",
